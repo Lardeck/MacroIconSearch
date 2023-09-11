@@ -1,0 +1,8 @@
+## Interface: 100107
+## Title: MacroIconSearch
+## Author: Permok
+## Dependencies: Blizzard_MacroUI
+## OptionalDeps: MacroSetup
+
+MacroIconSearch.xml
+Core.lua
