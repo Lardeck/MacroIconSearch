@@ -3,6 +3,7 @@
 ## Author: Permok
 ## Dependencies: Blizzard_MacroUI
 ## OptionalDeps: MacroSetup
+## X-Curse-Project-ID: 582886
 
 MacroIconSearch.xml
 Core.lua
