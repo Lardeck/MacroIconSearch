@@ -63,7 +63,7 @@ UI_shared.xsd">
                 </Anchors>
                 <Layers>
                     <Layer level="BACKGROUND">
-                        <FontString parentKey="Text" text="Search Spell" inherits="GameFontHighlight" justifyH="LEFT">
+                        <FontString parentKey="Text" text="Search Spell" inherits="GameFontHighlightSmall" justifyH="LEFT">
 							<Size x="103" y="38"/>
 							<Anchors>
 								<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" x="0" y="-10"/>
@@ -83,7 +83,7 @@ UI_shared.xsd">
                 </Anchors>
                 <Layers>
                     <Layer level="BACKGROUND">
-                        <FontString parentKey="Text" text="Set Icon ID" inherits="GameFontHighlight" justifyH="LEFT">
+                        <FontString parentKey="Text" text="Set Icon ID" inherits="GameFontHighlightSmall" justifyH="LEFT">
 							<Size x="103" y="38"/>
 							<Anchors>
 								<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" x="0" y="-10"/>
