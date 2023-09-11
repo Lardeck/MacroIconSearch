@@ -39,4 +39,4 @@ jobs:
         uses: BigWigsMods/packager@v2
         with:
           #probably not needed but whatever
-          args: -p 912182
+          args: -p 912182 -S
