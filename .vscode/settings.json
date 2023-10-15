@@ -3,6 +3,7 @@
         "MacroPopupFrame",
         "IconDataProviderMixin",
         "EventUtil",
-        "GenerateClosure"
+        "GenerateClosure",
+        "GearManagerPopupFrame"
     ]
 }

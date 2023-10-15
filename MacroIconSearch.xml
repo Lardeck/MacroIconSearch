@@ -33,11 +33,8 @@ UI_shared.xsd">
         <FontString inherits="ChatFontNormal"/>
     </EditBox>
 
-	<Frame name="MacroIconSearchFrame" enableKeyboard="true" enableMouse="true" parent="MacroPopupFrame">
+	<Frame name="MacroIconSearchFrame" enableKeyboard="true" enableMouse="true" hidden="true">
         <Size x="425" y="65"/>
-        <Anchors>
-            <Anchor point="BOTTOMLEFT" relativeTo="MacroPopupFrame" relativePoint="TOPLEFT" x="2" y="-5"/>
-        </Anchors>
         <Frames>
             <Frame parentKey="Border" inherits="DialogBorderDarkTemplate"/>
             <Frame parentKey="CoverFrame" frameLevel="1" enableMouse="true" enableKeyboard="true" hidden="true">

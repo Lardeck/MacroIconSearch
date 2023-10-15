@@ -3,6 +3,7 @@ MacroIconSearch = MIS
 
 local OIconDataProvider = nil
 local searchQuery = ""
+local icons = {}
 
 EventUtil.ContinueOnAddOnLoaded(addonName, function()
     if not IsAddOnLoaded("MacroSetup") then
@@ -10,9 +11,40 @@ EventUtil.ContinueOnAddOnLoaded(addonName, function()
     else
         MIS.GetIconCache = MacroSetup.GetIconCache
     end
+
+    MacroPopupFrame:HookScript("OnShow", function(self)
+        searchQuery = ""
+        OIconDataProvider = self.iconDataProvider
+        MacroIconSearchFrame:ClearAllPoints()
+        MacroIconSearchFrame:SetParent(self)
+        MacroIconSearchFrame:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 2, -5)
+        MacroIconSearchFrame:Show()
+        MacroIconSearchFrame.IconSearchQueryEditBox:SetFocus()
+    end)
+    
+    MacroPopupFrame:HookScript("OnHide", function(self)
+        MacroIconSearchFrame:Hide()
+        MacroIconSearchFrame.IconSearchQueryEditBox:SetText("")
+        wipe(icons)
+    end)
+
+    GearManagerPopupFrame:HookScript("OnShow", function(self)
+        searchQuery = ""
+        OIconDataProvider = self.iconDataProvider
+        MacroIconSearchFrame:ClearAllPoints()
+        MacroIconSearchFrame:SetParent(self)
+        MacroIconSearchFrame:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 2, -5)
+        MacroIconSearchFrame:Show()
+        MacroIconSearchFrame.IconSearchQueryEditBox:SetFocus()
+    end)
+    
+    GearManagerPopupFrame:HookScript("OnHide", function(self)
+        MacroIconSearchFrame:Hide()
+        MacroIconSearchFrame.IconSearchQueryEditBox:SetText("")
+        wipe(icons)
+    end)
 end)
 
-local icons = {}
 -- Will change it to a coroutine later
 local function UpdateIcons()
     wipe(icons)
@@ -38,15 +70,17 @@ end
 function MIS:SetCustomIcon(editBox, text)
     local iconID = tonumber(text)
     if iconID then
-        MacroPopupFrame.IconSelector.selectedCallback(nil, iconID)
-        MacroPopupFrame.IconSelector:SetSelectedIndex(1)
-        MacroPopupFrame.BorderBox.IconSelectorEditBox:SetFocus()
+        local parent = MacroIconSearchFrame:GetParent()
+        parent.IconSelector.selectedCallback(nil, iconID)
+        parent.IconSelector:SetSelectedIndex(1)
+        parent.BorderBox.IconSelectorEditBox:SetFocus()
         editBox:SetText("")
     end
 end
 
 function MIS:OnTextChanged(editBox, isThrottle)
     if isThrottle then
+        local parent = MacroIconSearchFrame:GetParent()
         searchQuery = editBox:GetText()
 
         local update = false
@@ -55,19 +89,19 @@ function MIS:OnTextChanged(editBox, isThrottle)
         end
 
         if searchQuery == "" then
-            MacroPopupFrame.iconDataProvider = OIconDataProvider
-            MacroPopupFrame:Update()
+            parent.iconDataProvider = OIconDataProvider
+            parent:Update()
         else
-            if MacroPopupFrame.iconDataProvider == OIconDataProvider then
-                MacroPopupFrame.iconDataProvider = IconDataProvider
-                local getSelection = GenerateClosure(IconDataProvider.GetIconByIndex, MacroPopupFrame)
-                local getNumSelections = GenerateClosure(IconDataProvider.GetNumIcons, MacroPopupFrame)
-                MacroPopupFrame.IconSelector:SetSelectionsDataProvider(getSelection, getNumSelections)
+            if parent.iconDataProvider == OIconDataProvider then
+                parent.iconDataProvider = IconDataProvider
+                local getSelection = GenerateClosure(IconDataProvider.GetIconByIndex, parent)
+                local getNumSelections = GenerateClosure(IconDataProvider.GetNumIcons, parent)
+                parent.IconSelector:SetSelectionsDataProvider(getSelection, getNumSelections)
             end
 
             if update then
                 UpdateIcons()
-                MacroPopupFrame.IconSelector:UpdateSelections()
+                parent.IconSelector:UpdateSelections()
                 self.lastSearchQuery = searchQuery
             end
         end
@@ -80,19 +114,9 @@ function MIS:OnTextChanged(editBox, isThrottle)
 end
 
 function MIS:OnEnterPressed()
-    MacroPopupFrame.BorderBox.IconSelectorEditBox:SetFocus()
+    local parent = MacroIconSearchFrame:GetParent()
+    parent.BorderBox.IconSelectorEditBox:SetFocus()
 end
-
-MacroPopupFrame:HookScript("OnShow", function(self)
-    searchQuery = ""
-    OIconDataProvider = self.iconDataProvider
-    MacroIconSearchFrame.IconSearchQueryEditBox:SetFocus()
-end)
-
-MacroPopupFrame:HookScript("OnHide", function(self)
-    MacroIconSearchFrame.IconSearchQueryEditBox:SetText("")
-    wipe(icons)
-end)
 
 do 
     local iconCache = {}
