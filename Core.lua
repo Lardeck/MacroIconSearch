@@ -157,6 +157,7 @@ do
                     end
                 else
                     keepRunning = false
+                    coFrame:SetScript("OnUpdate", nil)
                 end
             end
         end);
